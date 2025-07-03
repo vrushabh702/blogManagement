@@ -2,6 +2,20 @@
 "use client"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import {
+  closestCenter,
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core"
+import {
+  arrayMove,
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable"
+import SortableItem from "@/components/SortableItem"
 
 export default function CreatePage() {
   const router = useRouter()
@@ -139,14 +153,41 @@ export default function CreatePage() {
         </button>
       </div>
 
-      <div className="space-y-2">
-        {blocks.map((b, i) => (
-          <div key={i} className="border p-2">
-            <strong>{b.type}</strong>: {JSON.stringify(b.content)}
+      <DndContext
+        sensors={useSensors(
+          useSensor(PointerSensor),
+          useSensor(KeyboardSensor)
+        )}
+        collisionDetection={closestCenter}
+        onDragEnd={({ active, over }) => {
+          if (active.id !== over?.id) {
+            const oldIndex = active.id
+            const newIndex = over.id
+            setBlocks((items) => arrayMove(items, oldIndex, newIndex))
+          }
+        }}
+      >
+        <SortableContext
+          items={blocks.map((_, index) => index)}
+          strategy={verticalListSortingStrategy}
+        >
+          <div className="space-y-2">
+            {blocks.map((b, i) => (
+              // <div key={i} className="border p-2">
+              //   <strong>{b.type}</strong>: {JSON.stringify(b.content)}
+              // </div>
+              <SortableItem
+                key={i}
+                id={i}
+                block={b}
+                onDelete={(id) =>
+                  setBlocks((prev) => prev.filter((_, i) => i !== id))
+                }
+              />
+            ))}
           </div>
-        ))}
-      </div>
-
+        </SortableContext>
+      </DndContext>
       <button onClick={save} className="mt-4 bg-green-600 text-white px-4">
         Publish
       </button>
