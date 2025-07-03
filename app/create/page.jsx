@@ -7,6 +7,7 @@ export default function CreatePage() {
   const router = useRouter()
   const [title, setTitle] = useState("")
   const [slug, setSlug] = useState("")
+  const [author, setAuthor] = useState("")
   const [blocks, setBlocks] = useState([])
   const [type, setType] = useState("paragraph")
   const [input, setInput] = useState("")
@@ -55,7 +56,7 @@ export default function CreatePage() {
     const res = await fetch("/api/posts", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title, slug, blocks }),
+      body: JSON.stringify({ title, author, slug, blocks }),
     })
     if (res.ok) {
       router.push(`/posts/${slug}`)
@@ -79,6 +80,12 @@ export default function CreatePage() {
         onChange={(e) => setSlug(e.target.value)}
       />
 
+      <input
+        className="w-full border p-2"
+        placeholder="author"
+        value={author}
+        onChange={(e) => setAuthor(e.target.value)}
+      />
       <div className="flex space-x-2">
         <select
           className="border p-2"
