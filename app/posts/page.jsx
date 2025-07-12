@@ -1,11 +1,14 @@
-import Link from "next/link"
+import Link from "next/link";
 
 export default async function BlogListPage() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/all`, {
+  // const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/all`, {
+  //   cache: "no-store",
+  // })
+  const res = await fetch(`${`http://localhost:3000`}/api/posts/all`, {
     cache: "no-store",
-  })
-  const posts = await res.json()
-  console.log("posts from app", posts)
+  });
+  const posts = await res.json();
+  console.log("posts from app", posts);
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
@@ -28,5 +31,5 @@ export default async function BlogListPage() {
         ))}
       </div>
     </div>
-  )
+  );
 }

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -13,7 +13,14 @@
     "@dnd-kit/modifiers": "^9.0.0",
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
+    "@tiptap/extension-code-block-lowlight": "^2.24.2",
+    "@tiptap/extension-image": "^2.24.2",
+    "@tiptap/extension-link": "^2.24.2",
+    "@tiptap/extension-underline": "^2.24.2",
+    "@tiptap/react": "^2.24.2",
+    "@tiptap/starter-kit": "^2.24.2",
     "formidable": "^3.5.4",
+    "lowlight": "^2.9.0",
     "mysql2": "^3.14.1",
     "next": "15.3.4",
     "prismjs": "^1.30.0",

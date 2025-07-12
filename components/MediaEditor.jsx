@@ -5,10 +5,13 @@ import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
+// import { lowlight } from "lowlight/lib/all";
+// import { lowlight } from "lowlight/lib/core";
+import { lowlight } from "lowlight/lib/core"; // ✅ This works in v2
+
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
-import { lowlight } from "lowlight";
 import { useEffect } from "react";
-import "./editor.css"; // for custom tailwind styling (optional)
+import "./../app/editor.css"; // for custom tailwind styling (optional)
 
 const MediaEditor = ({ content, setContent }) => {
   const editor = useEditor({

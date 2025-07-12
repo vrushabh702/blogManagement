@@ -1,0 +1,67 @@
+/* editor.css */
+
+/* Editor area styling */
+.ProseMirror {
+  @apply min-h-[250px] outline-none px-2 py-3 text-base leading-relaxed;
+}
+
+/* Typography styles */
+.ProseMirror h1 {
+  @apply text-3xl font-bold mb-4;
+}
+
+.ProseMirror h2 {
+  @apply text-2xl font-semibold mb-3;
+}
+
+.ProseMirror h3 {
+  @apply text-xl font-semibold mb-2;
+}
+
+.ProseMirror p {
+  @apply mb-3;
+}
+
+.ProseMirror a {
+  @apply text-blue-600 underline hover:text-blue-800;
+}
+
+.ProseMirror strong {
+  @apply font-bold;
+}
+
+.ProseMirror em {
+  @apply italic;
+}
+
+.ProseMirror code {
+  @apply bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-sm font-mono;
+}
+
+.ProseMirror pre {
+  @apply bg-gray-900 text-white p-4 rounded-md overflow-x-auto text-sm font-mono my-4;
+}
+
+/* Image styling */
+.ProseMirror img {
+  @apply max-w-full h-auto rounded-md shadow mt-4 mb-4;
+}
+
+/* List styling */
+.ProseMirror ul {
+  @apply list-disc list-inside mb-4;
+}
+
+.ProseMirror ol {
+  @apply list-decimal list-inside mb-4;
+}
+
+/* Blockquote */
+.ProseMirror blockquote {
+  @apply border-l-4 border-gray-300 pl-4 italic text-gray-600 my-4;
+}
+
+/* Editor container buttons */
+.btn {
+  @apply bg-gray-100 text-gray-800 px-3 py-1 rounded hover:bg-gray-200 transition;
+}

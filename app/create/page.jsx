@@ -1,7 +1,7 @@
 // app/create/page.jsx
-"use client"
-import { useState } from "react"
-import { useRouter } from "next/navigation"
+"use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   closestCenter,
   DndContext,
@@ -9,37 +9,38 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-} from "@dnd-kit/core"
+} from "@dnd-kit/core";
 import {
   arrayMove,
   SortableContext,
   verticalListSortingStrategy,
-} from "@dnd-kit/sortable"
-import SortableItem from "@/components/SortableItem"
+} from "@dnd-kit/sortable";
+import SortableItem from "@/components/SortableItem";
+import MediaEditor from "@/components/MediaEditor";
 
 export default function CreatePage() {
-  const router = useRouter()
-  const [title, setTitle] = useState("")
-  const [slug, setSlug] = useState("")
-  const [author, setAuthor] = useState("")
-  const [blocks, setBlocks] = useState([])
-  const [type, setType] = useState("paragraph")
-  const [input, setInput] = useState("")
-  const [selectedImage, setSelectedImage] = useState(null)
-  const [previewURL, setPreviewURL] = useState(null)
+  const router = useRouter();
+  const [title, setTitle] = useState("");
+  const [slug, setSlug] = useState("");
+  const [author, setAuthor] = useState("");
+  const [blocks, setBlocks] = useState([]);
+  const [type, setType] = useState("paragraph");
+  const [input, setInput] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [previewURL, setPreviewURL] = useState(null);
 
   const addBlock = async () => {
     if (type === "image" && selectedImage) {
       // Upload the image first
-      const formData = new FormData()
-      formData.append("file", selectedImage)
+      const formData = new FormData();
+      formData.append("file", selectedImage);
 
       const uploadRes = await fetch("/api/upload", {
         method: "POST",
         body: formData,
-      })
+      });
 
-      const data = await uploadRes.json()
+      const data = await uploadRes.json();
       if (data?.filePath) {
         setBlocks((prev) => [
           ...prev,
@@ -47,11 +48,11 @@ export default function CreatePage() {
             type: "image",
             content: { url: data.filePath, alt: selectedImage.name },
           },
-        ])
-        setSelectedImage(null)
-        setPreviewURL(null)
+        ]);
+        setSelectedImage(null);
+        setPreviewURL(null);
       }
-      return
+      return;
     }
 
     const content = {
@@ -61,23 +62,23 @@ export default function CreatePage() {
       // image: { url: input, alt: "" },
 
       list: { style: "ul", items: input.split("\n") },
-    }[type]
-    setBlocks((prev) => [...prev, { type, content }])
-    setInput("")
-  }
+    }[type];
+    setBlocks((prev) => [...prev, { type, content }]);
+    setInput("");
+  };
 
   const save = async () => {
     const res = await fetch("/api/posts", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title, author, slug, blocks }),
-    })
+    });
     if (res.ok) {
-      router.push(`/posts/${slug}`)
+      router.push(`/posts/${slug}`);
     } else {
-      alert("Error saving post")
+      alert("Error saving post");
     }
-  }
+  };
 
   return (
     <section className="space-y-4">
@@ -126,9 +127,9 @@ export default function CreatePage() {
               type="file"
               accept="image/*"
               onChange={(e) => {
-                const file = e.target.files[0]
-                setSelectedImage(file)
-                setPreviewURL(URL.createObjectURL(file))
+                const file = e.target.files[0];
+                setSelectedImage(file);
+                setPreviewURL(URL.createObjectURL(file));
               }}
               className="border p-2"
             />
@@ -137,15 +138,16 @@ export default function CreatePage() {
             )}
           </>
         ) : (
-          <textarea
-            className="flex-grow border p-2"
-            placeholder={
-              type === "list" ? "One item per line" : `Enter ${type}`
-            }
-            rows={3}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-          />
+          // <textarea
+          //   className="flex-grow border p-2"
+          //   placeholder={
+          //     type === "list" ? "One item per line" : `Enter ${type}`
+          //   }
+          //   rows={3}
+          //   value={input}
+          //   onChange={(e) => setInput(e.target.value)}
+          // />
+          <MediaEditor content={input} setContent={setInput} />
         )}
 
         <button onClick={addBlock} className="bg-blue-600 text-white px-4">
@@ -161,9 +163,9 @@ export default function CreatePage() {
         collisionDetection={closestCenter}
         onDragEnd={({ active, over }) => {
           if (active.id !== over?.id) {
-            const oldIndex = active.id
-            const newIndex = over.id
-            setBlocks((items) => arrayMove(items, oldIndex, newIndex))
+            const oldIndex = active.id;
+            const newIndex = over.id;
+            setBlocks((items) => arrayMove(items, oldIndex, newIndex));
           }
         }}
       >
@@ -192,5 +194,5 @@ export default function CreatePage() {
         Publish
       </button>
     </section>
-  )
+  );
 }
